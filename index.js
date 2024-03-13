@@ -45,14 +45,16 @@ const items = {
 };
 
 const map = {
-  size: [10, 10],
+  size: [20, 20],
   gridDivision: 2,
   items: [
+    //top walls
     {
       ...items.wall,
       gridPosition: [0, 0],
       rotation: 0,
     },
+
     {
       ...items.wall,
       gridPosition: [4, 0],
@@ -75,35 +77,56 @@ const map = {
     },
     {
       ...items.wall,
-      gridPosition: [17.5, 1.5],
-      rotation: 1,
+      gridPosition: [20, 0],
+      rotation: 0,
     },
     {
       ...items.wall,
-      gridPosition: [17.5, 5.5],
-      rotation: 1,
+      gridPosition: [24, 0],
+      rotation: 0,
     },
     {
       ...items.wall,
-      gridPosition: [17.5, 9.5],
-      rotation: 1,
+      gridPosition: [28, 0],
+      rotation: 0,
     },
     {
       ...items.wall,
-      gridPosition: [17.5, 13.5],
-      rotation: 1,
+      gridPosition: [32, 0],
+      rotation: 0,
     },
     {
       ...items.wall,
-      gridPosition: [17.5, 17.5],
-      rotation: 1,
-    },
-    {
-      ...items.wall,
-      gridPosition: [17.5, 17.5],
-      rotation: 1,
+      gridPosition: [36, 0],
+      rotation: 0,
     },
 
+    //left walls
+    {
+      ...items.wall,
+      gridPosition: [-1.5, 37.5],
+      rotation: 1,
+    },
+    {
+      ...items.wall,
+      gridPosition: [-1.5, 33.5],
+      rotation: 1,
+    },
+    {
+      ...items.wall,
+      gridPosition: [-1.5, 29.5],
+      rotation: 1,
+    },
+    {
+      ...items.wall,
+      gridPosition: [-1.5, 25.5],
+      rotation: 1,
+    },
+    {
+      ...items.wall,
+      gridPosition: [-1.5, 21.5],
+      rotation: 1,
+    },
     {
       ...items.wall,
       gridPosition: [-1.5, 17.5],
@@ -129,6 +152,45 @@ const map = {
       gridPosition: [-1.5, 2],
       rotation: 1,
     },
+    {
+      ...items.wall,
+      gridPosition: [-1.5, 2],
+      rotation: 1,
+    },
+
+    // // GasTank :
+    // {
+    //   ...items.gasTank,
+    //   gridPosition: [9, 2],
+    //   rotation: 0.2,
+    // },
+
+    // {
+    //   ...items.gasTank,
+    //   gridPosition: [12, 8],
+    //   rotation: 2.5,
+    // },
+
+    // {
+    //   ...items.gasTank,
+    //   gridPosition: [12, 17.5],
+    //   rotation: 0.8,
+    // },
+    // {
+    //   ...items.gasTank,
+    //   gridPosition: [8.4, 17.5],
+    //   rotation: 0.3,
+    // },
+    // {
+    //   ...items.gasTank,
+    //   gridPosition: [7.2, 12.8],
+    //   rotation: 0.3,
+    // },
+    // {
+    //   ...items.gasTank,
+    //   gridPosition: [17.2, 4.8],
+    //   rotation: 0.3,
+    // },
   ],
 };
 
@@ -141,7 +203,6 @@ const generateRandomHexColor = () => {
 };
 
 io.on("connection", (socket) => {
-  console.log("Un client est connecté");
   characters.push({
     id: socket.id,
     position: generateRandomPosition(),
@@ -161,13 +222,11 @@ io.on("connection", (socket) => {
     );
     character.position = position;
     io.emit("characters", characters);
-    console.log("walk detected");
   });
 
   io.emit("characters", characters);
 
   socket.on("disconnect", () => {
-    console.log("disconnected");
     characters.splice(
       characters.findIndex((character) => character.id === socket.id),
       1
