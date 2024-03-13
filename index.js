@@ -32,8 +32,108 @@ const io = socketIo(server, {
 
 const characters = [];
 
+const items = {
+  wall: {
+    name: "Wall",
+    size: [4, 1],
+  },
+
+  gasTank: {
+    name: "GasTank",
+    size: [1, 1],
+  },
+};
+
+const map = {
+  size: [10, 10],
+  gridDivision: 2,
+  items: [
+    {
+      ...items.wall,
+      gridPosition: [0, 0],
+      rotation: 0,
+    },
+    {
+      ...items.wall,
+      gridPosition: [4, 0],
+      rotation: 0,
+    },
+    {
+      ...items.wall,
+      gridPosition: [8, 0],
+      rotation: 0,
+    },
+    {
+      ...items.wall,
+      gridPosition: [12, 0],
+      rotation: 0,
+    },
+    {
+      ...items.wall,
+      gridPosition: [16, 0],
+      rotation: 0,
+    },
+    {
+      ...items.wall,
+      gridPosition: [17.5, 1.5],
+      rotation: 1,
+    },
+    {
+      ...items.wall,
+      gridPosition: [17.5, 5.5],
+      rotation: 1,
+    },
+    {
+      ...items.wall,
+      gridPosition: [17.5, 9.5],
+      rotation: 1,
+    },
+    {
+      ...items.wall,
+      gridPosition: [17.5, 13.5],
+      rotation: 1,
+    },
+    {
+      ...items.wall,
+      gridPosition: [17.5, 17.5],
+      rotation: 1,
+    },
+    {
+      ...items.wall,
+      gridPosition: [17.5, 17.5],
+      rotation: 1,
+    },
+
+    {
+      ...items.wall,
+      gridPosition: [-1.5, 17.5],
+      rotation: 1,
+    },
+    {
+      ...items.wall,
+      gridPosition: [-1.5, 13.5],
+      rotation: 1,
+    },
+    {
+      ...items.wall,
+      gridPosition: [-1.5, 9.5],
+      rotation: 1,
+    },
+    {
+      ...items.wall,
+      gridPosition: [-1.5, 6],
+      rotation: 1,
+    },
+    {
+      ...items.wall,
+      gridPosition: [-1.5, 2],
+      rotation: 1,
+    },
+  ],
+};
+
 const generateRandomPosition = () => {
-  return [Math.random() * 3, 0, Math.random() * 3];
+  return [Math.random() * map.size[0], 0, Math.random() * map.size[1]];
 };
 
 const generateRandomHexColor = () => {
@@ -46,6 +146,13 @@ io.on("connection", (socket) => {
     id: socket.id,
     position: generateRandomPosition(),
     hairColor: generateRandomHexColor(),
+  });
+
+  socket.emit("hello", {
+    id: socket.id,
+    map,
+    items,
+    characters,
   });
 
   socket.on("move", (position) => {
